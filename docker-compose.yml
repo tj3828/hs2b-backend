@@ -1,0 +1,16 @@
+version: "3"
+services:
+  hs2b-backend:
+    image: hs2b-backend-dev
+    container_name: hs2b-backend-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./build:/build
+
+# hs2b-backend의 docker-compose와 연결
+networks:
+  default:
+    external:
+      name: hs2b-frontend_default
