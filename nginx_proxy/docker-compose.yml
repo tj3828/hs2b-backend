@@ -1,0 +1,17 @@
+version: "3"
+services:
+  hs2b-nginx:
+    image: tj3828/hs2b-nginx-dev
+    container_name: hs2b-nginx-dev
+    ports:
+      - "3000:80"
+    restart: always
+    volumes:
+      - ./default.conf:/etc/nginx/default.conf
+    networks:
+      - hs2b-network
+
+networks:
+  hs2b-network:
+    driver: bridge
+    name: hs2b-network

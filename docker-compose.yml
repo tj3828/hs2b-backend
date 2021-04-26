@@ -8,9 +8,10 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./build:/build
+    networks:
+      - hs2b-network
 
-# hs2b-backend의 docker-compose와 연결
 networks:
-  default:
-    external:
-      name: hs2b-frontend_default
+  hs2b-network:
+    driver: bridge
+    name: hs2b-network
