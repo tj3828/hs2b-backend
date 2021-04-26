@@ -1,8 +1,11 @@
 version: "3"
 services:
   hs2b-nginx:
-    image: tj3828/hs2b-nginx-dev
+    image: hs2b-nginx-dev
     container_name: hs2b-nginx-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:80"
     restart: always
