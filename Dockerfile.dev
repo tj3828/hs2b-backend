@@ -1,5 +1,6 @@
 FROM openjdk:8-jdk
 
+ENV SPRING_PROFILES_ACTIVE=dev
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .

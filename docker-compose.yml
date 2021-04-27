@@ -8,6 +8,23 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./build:/build
+      - ./src:/src
+    networks:
+      - hs2b-network
+    depends_on:
+      - hs2b-mysql
+
+  hs2b-mysql:
+    build: ./mysql/conf
+    container_name: hs2b-mysql-dev
+    ports:
+    - "3306:3306"
+    volumes:
+    - ./mysql/data:/var/lib/mysql
+    - ./mysql/init/:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: hs2b
     networks:
       - hs2b-network
 
