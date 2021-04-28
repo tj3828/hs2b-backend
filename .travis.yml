@@ -1,0 +1,34 @@
+language: java
+jdk: oraclejdk8
+
+sudo: required
+
+cache:
+  directories:
+    - .autoconf
+    - $HOME/.m2
+
+services:
+  - docker
+
+script:
+  # 테스트 & 빌드
+  - ./gradlew clean build
+
+  # 이름 설정
+#  - PRJ_GROUP=$(gradle properties -q | grep "group:" | awk '{print $2}')
+  - PRJ_NAME=$(gradle properties -q | grep "name:" | awk '{print $2}')
+  - PRJ_VERSION=$(gradle properties -q | grep "version:" | awk '{print $2}')
+
+#  - echo "## PROJECT_GRUOP - ${PRJ_GROUP}"
+  - echo "## PROJECT_NAME - ${PRJ_NAME}"
+  - echo "## PROJECT_VERSION - ${PRJ_VERSION}"
+
+  - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
+
+  # 도커 빌드
+  - docker build -t tj3828/hs2b-backend --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
+
+  # 도커허브 푸쉬
+  - docker login -u ${DOCKER_HUB_ID} -p ${DOCKER_HUB_PASSWORD}
+  - docker push tj3828/hs2b-backend
