@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: build-test
+    active: build-test  #travis ci test OR local test(not docker)
   jpa:
     properties:
       hibernates:
@@ -20,7 +20,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: dev #docker dev env
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://hs2b-mysql-dev:3306/hs2b?characterEncoding=UTF-8
