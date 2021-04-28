@@ -29,7 +29,7 @@ script:
   - echo "## PROJECT_NAME - ${PRJ_NAME}"
   - echo "## PROJECT_VERSION - ${PRJ_VERSION}"
 
-  - PRJ_JAR=hs2b-backend.jar
+  - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
 
   # 도커 빌드
   - docker build -t tj3828/hs2b-backend --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
