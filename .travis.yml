@@ -18,7 +18,7 @@ services:
 
 before_install:
   - chmod +x gradlew
-
+  - ./gradlew -version
 script:
   # 테스트 & 빌드
   - "./gradlew clean build"
