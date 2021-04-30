@@ -35,7 +35,7 @@ after_success:
 
   # s3 전송
   - docker pull registry:latest
-  - docker run -d -p 5000:5000 -e SETTINGS_FLAVOR=s3 -e AWS_BUCKET=hs2b-webservice-build -e STORAGE_PATH=/hs2b/backend -e AWS_KEY={$AWS_ACCESS_KEY} -e AWS_SECRET={$AWS_SECRET_KEY} registry
+  - docker run -d -p 5000:5000 -e SETTINGS_FLAVOR=s3 -e AWS_BUCKET=hs2b-webservice-build -e STORAGE_PATH=/hs2b/backend -e AWS_KEY=${AWS_ACCESS_KEY} -e AWS_SECRET=${AWS_SECRET_KEY} registry
   - docker tag tj3828/hs2b-backend 0.0.0.0:5000/hs2b-backend
   - docker push 0.0.0.0:5000/hs2b-backend
 #  - docker login -u ${DOCKER_HUB_ID} -p ${DOCKER_HUB_PASSWORD}
