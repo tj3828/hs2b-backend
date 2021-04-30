@@ -20,12 +20,11 @@ script:
   # 테스트 & 빌드
   - "./gradlew clean build"
 
+after_success:
   # 이름 설정
-#  - PRJ_GROUP=$(gradle properties -q | grep "group:" | awk '{print $2}')
   - PRJ_NAME=$(./gradlew properties -q | grep "name:" | awk '{print $2}')
   - PRJ_VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
 
-#  - echo "## PROJECT_GROUP - ${PRJ_GROUP}"
   - echo "## PROJECT_NAME - ${PRJ_NAME}"
   - echo "## PROJECT_VERSION - ${PRJ_VERSION}"
 
@@ -34,6 +33,14 @@ script:
   # 도커 빌드
   - docker build -t tj3828/hs2b-backend --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
 
-  # 도커허브 푸쉬
-  - docker login -u ${DOCKER_HUB_ID} -p ${DOCKER_HUB_PASSWORD}
-  - docker push tj3828/hs2b-backend
+  # s3 전송
+  - docker pull registry:latest
+  - docker run -d -p 5000:5000 -e SETTINGS_FLAVOR=s3 -e AWS_BUCKET=hs2b-webservice-build -e STORAGE_PATH=/hs2b/backend -e AWS_KEY={$AWS_ACCESS_KEY} -e AWS_SECRET={$AWS_SECRET_KEY} registry
+#  - docker login -u ${DOCKER_HUB_ID} -p ${DOCKER_HUB_PASSWORD}
+#  - docker push tj3828/hs2b-backend
+
+deploy:
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    region: ap-northeast-2

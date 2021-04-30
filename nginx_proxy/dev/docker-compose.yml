@@ -4,7 +4,7 @@ services:
     image: hs2b-nginx-dev
     container_name: hs2b-nginx-dev
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile.dev
     ports:
       - "3000:80"
