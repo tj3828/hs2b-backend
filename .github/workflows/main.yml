@@ -57,4 +57,4 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/hs2b-backend.zip
 
       - name: Code Deploy 배포
-        run : aws deploy create-deployment --application-name hs2b-webservice --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name hs2b-service-group --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/hs2b-backend.zip
+        run : aws deploy create-deployment --application-name hs2b-webservice --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name hs2b-service-group --s3-location bucket=hs2b-webservice-build,bundleType=zip,key=hs2b/hs2b-backend.zip
