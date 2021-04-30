@@ -9,35 +9,70 @@ branches:
 
 cache:
   directories:
-    - .autoconf
-    - $HOME/.m2
-    - $HOME/.gradle
-
-services:
-  - docker
+    - "$HOME/.m2/repository"
+    - "$HOME/.gradle"
 
 script:
   # 테스트 & 빌드
   - "./gradlew clean build"
 
-after_success:
-  # 이름 설정
-  - PRJ_NAME=$(./gradlew properties -q | grep "name:" | awk '{print $2}')
-  - PRJ_VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+before_deploy:
+  - mkdir -p before-deploy
+  - cp scripts/*.sh before-deploy/
+  - cp appspec.yml befor-deply/
+  - cp build/libs/*.jar before-deploy/
+  - cd before-deploy && zip -r before-deploy
+  - cd ../ && mkdir -p deploy
+  - mv before-deploy/before-deploy.zip deploy/hs2b-backend.zip
 
-  - echo "## PROJECT_NAME - ${PRJ_NAME}"
-  - echo "## PROJECT_VERSION - ${PRJ_VERSION}"
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: hs2b-webservice-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: ture
+#
+#  - provider: codeploy
+#    access_key_id: $AWS_ACCESS_KEY
+#    secret_access_key: $AWS_SECRET_KEY
+#    bucket: hs2b-webservice-build
+#    key: hs2b-backend.zip
+#    bundle_type: zip
+#    application: hs2b-webservice
+#    deployment_group: hs2b-webservice-group
+#    region: ap-northeast-2
+#    wait-until-deployed: true
 
-  - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
+notifications:
+  email:
+    recipients:
+      - dhxkrwhd38@gmail.com
 
-  # 도커 빌드
-  - docker build -t tj3828/hs2b-backend --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
 
-  # s3 전송
-  - docker pull registry:latest
-  - docker run -d -p 5000:5000 -e SETTINGS_FLAVOR=s3 -e AWS_BUCKET=hs2b-webservice-build -e STORAGE_PATH=/hs2b/backend -e AWS_KEY=${AWS_ACCESS_KEY} -e AWS_SECRET=${AWS_SECRET_KEY} registry
-  - docker tag tj3828/hs2b-backend 0.0.0.0:5000/hs2b-backend
-  - docker push 0.0.0.0:5000/hs2b-backend
+# 도커로 환경 구성 언젠간...
+#after_success:
+#  # 이름 설정
+#  - PRJ_NAME=$(./gradlew properties -q | grep "name:" | awk '{print $2}')
+#  - PRJ_VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+#
+#  - echo "## PROJECT_NAME - ${PRJ_NAME}"
+#  - echo "## PROJECT_VERSION - ${PRJ_VERSION}"
+#
+#  - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
+#
+#  # 도커 빌드
+#  - docker build -t tj3828/hs2b-backend --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
+#
+#  # s3 전송
+#  - docker pull registry:latest
+#  - docker run -d -p 5000:5000 -e SETTINGS_FLAVOR=s3 -e AWS_BUCKET=hs2b-webservice-build -e STORAGE_PATH=/hs2b/backend -e AWS_KEY=${AWS_ACCESS_KEY} -e AWS_SECRET=${AWS_SECRET_KEY} registry
+#  - docker tag tj3828/hs2b-backend 0.0.0.0:5000/hs2b-backend
+#  - docker push 0.0.0.0:5000/hs2b-backend
+
 #  - docker login -u ${DOCKER_HUB_ID} -p ${DOCKER_HUB_PASSWORD}
 #  - docker push tj3828/hs2b-backend
 #
