@@ -54,6 +54,7 @@ notifications:
 
 
 # 도커로 환경 구성 언젠간...
+# docker 구성하는데 너무오래걸림. 1. docker image -> s3 전송 registry 2. docker build
 #after_success:
 #  # 이름 설정
 #  - PRJ_NAME=$(./gradlew properties -q | grep "name:" | awk '{print $2}')
