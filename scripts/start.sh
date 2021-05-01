@@ -2,7 +2,7 @@
 
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
-source ${ABSPATH}/profile.sh
+source ${ABSDIR}/profile.sh
 
 
 REPOSITORY=/home/ec2-user/app/hs2b/backend

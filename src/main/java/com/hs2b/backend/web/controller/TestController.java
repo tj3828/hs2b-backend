@@ -1,4 +1,4 @@
-package com.hs2b.backend.web.controllers;
+package com.hs2b.backend.web.controller;
 
 import com.hs2b.backend.domain.list.ListTest;
 import com.hs2b.backend.domain.list.ListsRepository;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class TestControllers {
+public class TestController {
 
     @Autowired
     ListsRepository listsRepository;

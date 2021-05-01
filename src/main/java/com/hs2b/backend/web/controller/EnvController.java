@@ -1,7 +1,6 @@
-package com.hs2b.backend.web.controllers;
+package com.hs2b.backend.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController()
-public class EnvControllers {
+public class EnvController {
 
     private final Environment environment;
 
