@@ -4,7 +4,7 @@ REPOSITORY=/home/ec2-user/app/hs2b
 PROJECT_NAME=hs2b-backend
 
 echo "> Build 파일 복사"
-cp $REPOSITORY/backend/*jar $REPOSITORY/
+cp $REPOSITORY/backend/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 에플리케이션 pid 확인"
 
