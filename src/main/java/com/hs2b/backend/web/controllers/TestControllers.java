@@ -1,7 +1,7 @@
-package com.hs2b.backend.controllers;
+package com.hs2b.backend.web.controllers;
 
-import com.hs2b.backend.Entity.ListTest;
-import com.hs2b.backend.Repository.ListsRepository;
+import com.hs2b.backend.domain.list.ListTest;
+import com.hs2b.backend.domain.list.ListsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

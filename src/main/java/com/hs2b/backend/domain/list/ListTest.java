@@ -1,4 +1,4 @@
-package com.hs2b.backend.Entity;
+package com.hs2b.backend.domain.list;
 
 import lombok.Getter;
 import lombok.Setter;
