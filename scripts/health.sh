@@ -15,7 +15,7 @@ sleep 10
 
 for RETRY_COUNT in {1..10}
 do
-  RESPONSE=$(curl -s https://localhost:$IDLE_PORT/api/profile)
+  RESPONSE=$(curl -s https://localhost:${IDLE_PORT}/api/profile)
 #  UP_COUNT=$(echo ${RESPONSE})
 
   if [ ${RESPONSE} -ge ${IDLE_PROFILE} ]
