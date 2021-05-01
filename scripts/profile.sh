@@ -17,7 +17,7 @@ function find_idle_profile() {
       IDLE_PROFILE=blue
     fi
 
-    echo "CURRENT_PROFILE : ${IDLE_PROFILE}"
+    echo "${IDLE_PROFILE}"
 }
 
 function find_idle_port() {
