@@ -38,8 +38,15 @@ jobs:
       - name: Gradle 빌드
         run: ./gradlew clean build
         
-#       - name: zip파일 생성
-#         run: zip -r ./$GITHUB_SHA.zip .
+      - name: Generate package
+        run: |
+          mkdir -p before-deploy/
+          cp scripts/*.sh before-deploy/
+          cp appspec.yml before-deploy/
+          cp build/libs/*.jar before-deploy/
+          cd before-deploy && zip -r before-deploy *
+          cd ../ && mkdir -p deploy
+          mv before-deploy/before-deploy.zip deploy/hs2b-backend.zip
         
       - name: AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v1
@@ -49,8 +56,7 @@ jobs:
           aws-region: ap-northeast-2
           
       - name: S3 업로드
-#         run: aws s3 cp ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/hs2b-backend.zip
-        run: aws deploy push --application-name hs2b-webservice --s3-location s3://$S3_BUCKET_NAME/$PROCJECT_NAME/hs2b-backend.zip --source .
+        run: aws s3 cp ./deploy/hs2b-backend.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/hs2b-backend.zip
 
       - name: Code Deploy 배포
         run : aws deploy create-deployment --application-name hs2b-webservice --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name hs2b-webservice-group --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/hs2b-backend.zip
