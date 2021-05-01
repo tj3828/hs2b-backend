@@ -16,9 +16,9 @@ sleep 10
 for RETRY_COUNT in {1..10}
 do
   RESPONSE=$(curl -s https://localhost:$IDLE_PORT/api/profile)
-  UP_COUNT=$(echo ${RESPONSE} | grep ${IDLE_PROFILE})
+#  UP_COUNT=$(echo ${RESPONSE})
 
-  if [ ${UP_COUNT} -ge 1 ]
+  if [ ${RESPONSE} -ge ${IDLE_PROFILE} ]
   then
     echo "> Health 체크 성공"
     switch_proxy
