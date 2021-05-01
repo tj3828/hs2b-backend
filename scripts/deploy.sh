@@ -8,7 +8,7 @@ cp $REPOSITORY/backend/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 에플리케이션 pid 확인"
 
-CURRENT_PID=$(pgrep -fl hs2b-backend | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -f hs2b-backend)
 
 echo "> 현재 구동중인 애플리케이션 pid: $CURRENT_PID"
 
