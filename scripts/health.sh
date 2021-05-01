@@ -18,7 +18,7 @@ do
   RESPONSE=$(curl -s https://localhost:${IDLE_PORT}/api/profile)
 #  UP_COUNT=$(echo ${RESPONSE})
 
-  if [ ${RESPONSE} -eq ${IDLE_PROFILE} ]
+  if [ ${RESPONSE} == ${IDLE_PROFILE} ]
   then
     echo "> Health 체크 성공"
     switch_proxy
